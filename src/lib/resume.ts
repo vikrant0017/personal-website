@@ -1,6 +1,16 @@
-import fs from 'fs';
-import path from 'path';
-import toml from '@iarna/toml';
+import fs from "fs";
+import path from "path";
+import toml from "@iarna/toml";
+
+export interface Logo {
+  name?: string;
+  url?: string;
+  logo?: string;
+}
+
+export interface ConfigData {
+  logos?: Logo[];
+}
 
 export interface Personal {
   name?: string;
@@ -60,26 +70,56 @@ export interface ResumeData {
 
 export function loadResumeData(): ResumeData {
   try {
-    const resumePath = path.join(process.cwd(), 'resume.toml');
-    const fileContent = fs.readFileSync(resumePath, 'utf-8');
+    const resumePath = path.join(process.cwd(), "resume.toml");
+    const fileContent = fs.readFileSync(resumePath, "utf-8");
     const data = toml.parse(fileContent) as ResumeData;
     return data;
   } catch (error) {
-    console.error('Error loading resume.toml:', error);
+    console.error("Error loading resume.toml:", error);
     return {};
   }
 }
 
+export function loadConfigData(): ConfigData {
+  try {
+    const configPath = path.join(process.cwd(), "config.toml");
+    const fileContent = fs.readFileSync(configPath, "utf-8");
+    const data = toml.parse(fileContent) as ConfigData;
+    return data;
+  } catch (error) {
+    console.error("Error loading config.toml:", error);
+    return {};
+  }
+}
+
+export function getLogoForSkill(
+  skillName: string,
+  logos?: Logo[],
+): Logo | null {
+  if (!logos || logos.length === 0) return null;
+
+  // Case-insensitive search
+  const normalizedSkillName = skillName.toLowerCase();
+  const logo = logos.find((l) => l.name?.toLowerCase() === normalizedSkillName);
+
+  return logo || null;
+}
+
 export function formatDateRange(startDate?: string, endDate?: string): string {
-  if (!startDate && !endDate) return '';
-  if (!endDate) return startDate || '';
+  if (!startDate && !endDate) return "";
+  if (!endDate) return startDate || "";
   if (!startDate) return endDate;
   return `${startDate} - ${endDate}`;
 }
 
 export function hasPersonalInfo(personal?: Personal): boolean {
   if (!personal) return false;
-  return !!(personal.name || personal.email || personal.phone || personal.location);
+  return !!(
+    personal.name ||
+    personal.email ||
+    personal.phone ||
+    personal.location
+  );
 }
 
 export function hasSocialLinks(personal?: Personal): boolean {

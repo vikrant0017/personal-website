@@ -1,40 +1,39 @@
 ---
-import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
-import { Badge } from "./ui/badge";
-import { loadResumeData, formatDateRange } from "../lib/resume";
+import { loadResumeData, loadConfigData, getLogoForSkill } from "../lib/resume";
 
 const resumeData = loadResumeData();
-const education = resumeData.education || [];
+const configData = loadConfigData();
 const skills = resumeData.skills || {};
-const experience = resumeData.experience || [];
+const logos = configData.logos || [];
 
-// Calculate years of experience
-const calculateYearsOfExperience = () => {
-    if (experience.length === 0) return 0;
-    const startDates = experience
-        .map((exp) => exp.start_date)
-        .filter(Boolean)
-        .map((date) => new Date(date!));
-    if (startDates.length === 0) return 0;
-    const earliestDate = new Date(
-        Math.min(...startDates.map((d) => d.getTime())),
-    );
-    const years =
-        (new Date().getTime() - earliestDate.getTime()) /
-        (1000 * 60 * 60 * 24 * 365);
-    return Math.floor(years);
-};
+// Collect all skills into a flat array with their categories
+const allSkills: Array<{ name: string; category: string }> = [];
 
-const yearsOfExperience = calculateYearsOfExperience();
-const projectCount = resumeData.projects?.length || 0;
-
-// Check if we have skills to display
-const hasSkills =
-    skills.languages?.length ||
-    skills.frameworks?.length ||
-    skills.tools?.length ||
-    skills.databases?.length ||
-    skills.concepts?.length;
+if (skills.languages) {
+    skills.languages.forEach((skill) => {
+        allSkills.push({ name: skill, category: "Languages" });
+    });
+}
+if (skills.frameworks) {
+    skills.frameworks.forEach((skill) => {
+        allSkills.push({ name: skill, category: "Frameworks & Libraries" });
+    });
+}
+if (skills.databases) {
+    skills.databases.forEach((skill) => {
+        allSkills.push({ name: skill, category: "Databases" });
+    });
+}
+if (skills.tools) {
+    skills.tools.forEach((skill) => {
+        allSkills.push({ name: skill, category: "Tools & Technologies" });
+    });
+}
+if (skills.concepts) {
+    skills.concepts.forEach((skill) => {
+        allSkills.push({ name: skill, category: "Concepts" });
+    });
+}
 ---
 
 <section
@@ -43,225 +42,54 @@ const hasSkills =
 >
     <div class="mb-12 text-center">
         <h2 class="text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl">
-            About Me
+            Skills & Technologies
         </h2>
         <p class="mt-4 text-lg text-muted-foreground">
-            Get to know more about my background and expertise.
+            Technologies I work with and have expertise in.
         </p>
     </div>
 
-    <div class="mx-auto max-w-4xl space-y-8">
+    <div class="mx-auto max-w-6xl">
         {
-            hasSkills && (
-                <Card client:load>
-                    <CardHeader>
-                        <CardTitle>Skills & Technologies</CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                        <div class="space-y-6">
-                            {skills.languages &&
-                                skills.languages.length > 0 && (
-                                    <div>
-                                        <h3 class="mb-3 font-semibold text-foreground">
-                                            Languages
-                                        </h3>
-                                        <div class="flex flex-wrap gap-2">
-                                            {skills.languages.map((skill) => (
-                                                <Badge
-                                                    client:load
-                                                    variant="outline"
-                                                >
-                                                    {skill}
-                                                </Badge>
-                                            ))}
-                                        </div>
-                                    </div>
-                                )}
-                            {skills.frameworks &&
-                                skills.frameworks.length > 0 && (
-                                    <div>
-                                        <h3 class="mb-3 font-semibold text-foreground">
-                                            Frameworks & Libraries
-                                        </h3>
-                                        <div class="flex flex-wrap gap-2">
-                                            {skills.frameworks.map((skill) => (
-                                                <Badge
-                                                    client:load
-                                                    variant="outline"
-                                                >
-                                                    {skill}
-                                                </Badge>
-                                            ))}
-                                        </div>
-                                    </div>
-                                )}
-                            {skills.databases &&
-                                skills.databases.length > 0 && (
-                                    <div>
-                                        <h3 class="mb-3 font-semibold text-foreground">
-                                            Databases
-                                        </h3>
-                                        <div class="flex flex-wrap gap-2">
-                                            {skills.databases.map((skill) => (
-                                                <Badge
-                                                    client:load
-                                                    variant="outline"
-                                                >
-                                                    {skill}
-                                                </Badge>
-                                            ))}
-                                        </div>
-                                    </div>
-                                )}
-                            {skills.tools && skills.tools.length > 0 && (
-                                <div>
-                                    <h3 class="mb-3 font-semibold text-foreground">
-                                        Tools & Technologies
-                                    </h3>
-                                    <div class="flex flex-wrap gap-2">
-                                        {skills.tools.map((skill) => (
-                                            <Badge
-                                                client:load
-                                                variant="outline"
-                                            >
-                                                {skill}
-                                            </Badge>
-                                        ))}
-                                    </div>
+            allSkills.length > 0 && (
+                <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
+                    {allSkills.map((skill) => {
+                        const logoData = getLogoForSkill(skill.name, logos);
+                        const logoPath = logoData?.logo
+                            ? `/logos/${logoData.logo}`
+                            : "/logos/placeholder.svg";
+                        const url = logoData?.url || "#";
+                        const hasValidUrl =
+                            !!logoData?.url && logoData.url !== "#";
+
+                        return (
+                            <a
+                                href={url}
+                                target={hasValidUrl ? "_blank" : undefined}
+                                rel={
+                                    hasValidUrl
+                                        ? "noopener noreferrer"
+                                        : undefined
+                                }
+                                class="group flex flex-col items-center justify-center p-4 rounded-lg border border-border bg-card hover:bg-accent hover:border-accent-foreground transition-all duration-200 hover:shadow-md"
+                                title={skill.name}
+                            >
+                                <div class="w-12 h-12 mb-3 flex items-center justify-center">
+                                    <img
+                                        src={logoPath}
+                                        alt={`${skill.name} logo`}
+                                        class="w-full h-full object-contain group-hover:scale-110 transition-transform duration-200"
+                                        loading="lazy"
+                                    />
                                 </div>
-                            )}
-                            {skills.concepts && skills.concepts.length > 0 && (
-                                <div>
-                                    <h3 class="mb-3 font-semibold text-foreground">
-                                        Concepts
-                                    </h3>
-                                    <div class="flex flex-wrap gap-2">
-                                        {skills.concepts.map((skill) => (
-                                            <Badge
-                                                client:load
-                                                variant="outline"
-                                            >
-                                                {skill}
-                                            </Badge>
-                                        ))}
-                                    </div>
-                                </div>
-                            )}
-                        </div>
-                    </CardContent>
-                </Card>
+                                <span class="text-sm font-medium text-center text-foreground group-hover:text-accent-foreground">
+                                    {skill.name}
+                                </span>
+                            </a>
+                        );
+                    })}
+                </div>
             )
         }
-
-        <div class="grid gap-6 md:grid-cols-3">
-            {
-                projectCount > 0 && (
-                    <Card client:load>
-                        <CardHeader>
-                            <div class="flex items-center gap-3">
-                                <div class="rounded-lg bg-primary p-2 text-primary-foreground">
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        width="24"
-                                        height="24"
-                                        viewBox="0 0 24 24"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        stroke-width="2"
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                    >
-                                        <path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z" />
-                                        <path d="M14 2v4a2 2 0 0 0 2 2h4" />
-                                    </svg>
-                                </div>
-                                <CardTitle>{projectCount}+</CardTitle>
-                            </div>
-                        </CardHeader>
-                        <CardContent>
-                            <p class="text-sm text-muted-foreground">
-                                Projects Completed
-                            </p>
-                        </CardContent>
-                    </Card>
-                )
-            }
-
-            {
-                yearsOfExperience > 0 && (
-                    <Card client:load>
-                        <CardHeader>
-                            <div class="flex items-center gap-3">
-                                <div class="rounded-lg bg-primary p-2 text-primary-foreground">
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        width="24"
-                                        height="24"
-                                        viewBox="0 0 24 24"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        stroke-width="2"
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                    >
-                                        <rect
-                                            width="20"
-                                            height="14"
-                                            x="2"
-                                            y="7"
-                                            rx="2"
-                                            ry="2"
-                                        />
-                                        <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
-                                    </svg>
-                                </div>
-                                <CardTitle>{yearsOfExperience}+</CardTitle>
-                            </div>
-                        </CardHeader>
-                        <CardContent>
-                            <p class="text-sm text-muted-foreground">
-                                Years Experience
-                            </p>
-                        </CardContent>
-                    </Card>
-                )
-            }
-
-            {
-                education.length > 0 && (
-                    <Card client:load>
-                        <CardHeader>
-                            <div class="flex items-center gap-3">
-                                <div class="rounded-lg bg-primary p-2 text-primary-foreground">
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        width="24"
-                                        height="24"
-                                        viewBox="0 0 24 24"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        stroke-width="2"
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                    >
-                                        <path d="M22 10v6M2 10l10-5 10 5-10 5z" />
-                                        <path d="M6 12v5c3 3 9 3 12 0v-5" />
-                                    </svg>
-                                </div>
-                                <CardTitle>
-                                    {education[0].degree?.split(",")[0] ||
-                                        "Degree"}
-                                </CardTitle>
-                            </div>
-                        </CardHeader>
-                        <CardContent>
-                            <p class="text-sm text-muted-foreground">
-                                Education Level
-                            </p>
-                        </CardContent>
-                    </Card>
-                )
-            }
-        </div>
     </div>
 </section>

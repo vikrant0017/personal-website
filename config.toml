@@ -1,0 +1,44 @@
+[[logos]]
+name = "Python"
+url = "https://www.python.org/"
+logo = "python.svg"
+
+[[logos]]
+name = "TypeScript"
+url = "https://www.typescriptlang.org/"
+logo = "typescript.svg"
+
+[[logos]]
+name = "JavaScript"
+url = "https://developer.mozilla.org/en-US/docs/Web/JavaScript"
+logo = "javascript.svg"
+
+[[logos]]
+name = "Javascript"
+url = "https://developer.mozilla.org/en-US/docs/Web/JavaScript"
+logo = "javascript.svg"
+
+[[logos]]
+name = "FastAPI"
+url = "https://fastapi.tiangolo.com/"
+logo = "fastapi.svg"
+
+[[logos]]
+name = "Git"
+url = "https://git-scm.com/"
+logo = "git.svg"
+
+[[logos]]
+name = "ReactJS"
+url = "https://react.dev/"
+logo = "react.svg"
+
+[[logos]]
+name = "ElectronJS"
+url = "https://www.electronjs.org/"
+logo = "electron.svg"
+
+[[logos]]
+name = "Docker"
+url = "https://www.docker.com/"
+logo = "docker.svg"
