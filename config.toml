@@ -42,3 +42,23 @@ logo = "electron.svg"
 name = "Docker"
 url = "https://www.docker.com/"
 logo = "docker.svg"
+
+[[logos]]
+name = "MySQL"
+url = "https://www.mysql.com/"
+logo = "mysql.svg"
+
+[[logos]]
+name = "Redis"
+url = "https://www.redis.io/"
+logo = "redis.svg"
+
+[[logos]]
+name = "Langchain"
+url = "https://www.Langchain.com/"
+logo = "langchain.svg"
+
+[[logos]]
+name = "MongoDB"
+url = "https://www.Langchain.com/"
+logo = "mongodb.svg"
