@@ -8,9 +8,9 @@ linkedin = "linkedin.com/in/vikrantpradhan"
 github   = "github.com/vikrant0017"
 
 [summary]
-text = """Backend-focused Full Stack Developer with 2+ years of experience and a Master’s in Computer Science (ML specialization) from Georgia Tech. \
-Skilled in Python, Node.js, and scalable system design. Currently deepening expertise in AI and LLMs to build production-ready, intelligent systems. \
-Eager to contribute to teams developing practical, AI-driven applications."""
+text = """A full-stack developer (M.S. Computer Science, ML - Georgia Tech) with 2+ years building production services. \
+Primarily use Python and TypeScript to ship APIs (FastAPI), data pipelines (Redis/SQL), desktop apps (Electron), and AI features (RAG, local LLMs). \
+Currently focused on LLM engineering and integrations. See my projects and GitHub to learn more."""
 
 [[education]]
 institution    = "Georgia Institute of Technology"
@@ -68,6 +68,5 @@ description = [
 [skills]
 languages  = ["Python", "TypeScript", "Javascript"]
 frameworks = ["FastAPI" ,"ReactJS", "Langchain", "ElectronJS"]
-tools      = ["Docker", "Git", "Github"]
+tools      = ["Docker", "Git"]
 databases  = ["MySQL", "MongoDB", "Redis"]
-concepts   = ["REST APIs", "Data Structures & Algorithms", "Machine Learning"]
