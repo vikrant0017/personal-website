@@ -1,0 +1,39 @@
+---
+// This script runs before the page renders to prevent flash of unstyled content
+---
+
+<script is:inline>
+    function initTheme() {
+        // Default to 'system' which respects OS preference (often dark mode)
+        // You can change this to 'dark' or 'light' to force a specific default
+        const theme = localStorage.getItem("theme") || "system";
+
+        if (theme === "system") {
+            // Check system preference and apply dark or light accordingly
+            const systemTheme = window.matchMedia(
+                "(prefers-color-scheme: dark)",
+            ).matches
+                ? "dark"
+                : "light";
+            document.documentElement.classList.add(systemTheme);
+        } else {
+            // Apply user's explicit choice (light or dark)
+            document.documentElement.classList.add(theme);
+        }
+    }
+
+    initTheme();
+
+    // Listen for system theme changes
+    window
+        .matchMedia("(prefers-color-scheme: dark)")
+        .addEventListener("change", (e) => {
+            const theme = localStorage.getItem("theme");
+            if (theme === "system" || !theme) {
+                document.documentElement.classList.remove("light", "dark");
+                document.documentElement.classList.add(
+                    e.matches ? "dark" : "light",
+                );
+            }
+        });
+</script>
