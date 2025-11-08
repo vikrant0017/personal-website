@@ -1,0 +1,73 @@
+[personal]
+name     = "Vikrant Pradhan"
+phone    = "+91 94455 35612"
+email    = "pradhan.vikrant.97@gmail.com"
+location = "Bengaluru, KA, India"
+website  = "vikrantpradhan.dev"
+linkedin = "linkedin.com/in/vikrantpradhan"
+github   = "github.com/vikrant0017"
+
+[summary]
+text = """Backend-focused Full Stack Developer with 2+ years of experience and a Master’s in Computer Science (ML specialization) from Georgia Tech. \
+Skilled in Python, Node.js, and scalable system design. Currently deepening expertise in AI and LLMs to build production-ready, intelligent systems. \
+Eager to contribute to teams developing practical, AI-driven applications."""
+
+[[education]]
+institution    = "Georgia Institute of Technology"
+degree         = "Master's, Computer Science"
+specialization = "Machine Learning"
+gpa            = "3.8"
+start_date     = "January 2022"
+end_date       = "December 2024"
+
+[[education]]
+institution = "Aarupadai Veedu Institute of Technology"
+degree      = "Bachelor's, Computer Engineering"
+gpa         = "9"
+start_date  = "August 2015"
+end_date    = "May 2019"
+
+[[experience]]
+company     = "Enerman Technologies Pvt Ltd"
+location    = "Bengaluru, KA, India"
+role        = "Software Engineer"
+start_date  = "September 2019"
+end_date    = "December 2021"
+responsibilities = [
+    "Reduced database load by implementing an aggregate module that efficiently consolidated sensor data into periodic summaries.",
+    "Improved FTP data processing speed by replacing cron job checks with real-time file monitoring, resulting in quicker database updates after file uploads.",
+    "Improved query performance by integrating Redis Streams for caching, significantly alleviating pressure on the main SQL database.",
+    "Enhanced data integrity by designing and implementing a real-time sensor data filter service, effectively eliminating erroneous values before database storage."
+]
+
+[[projects]]
+name = "AI Launcher"
+link = "github.com/vikrant0017/ai-launcher"
+summary = "Cross-platform desktop app built with Electron for fast local AI and RAG-based queries."
+description = [
+"Developed the frontend with Electron, React, and TypeScript, and the backend with FastAPI.",
+"Implemented a complete local RAG pipeline using Ollama for offline AI responses.",
+"Built a file sync service to automatically index and update documents in the retriever.",
+"Added a notes capture feature for quick Markdown-based note-taking.",
+"Designed keyboard-centric navigation with global and in-app shortcuts for seamless use.",
+]
+
+
+[[projects]]
+name = "Smart Bookmarks"
+link = "github.com/vikrant0017/smart-bookmark-ext"
+summary = "A Chrome extension that helps you save and organize bookmarks with AI-powered summaries."
+description = [
+"Built a Chrome extension using Vite, React, and TypeScript.",
+"Enabled quick bookmarking with AI-generated summaries and tags.",
+"Added bookmark management features — search, categorize, and filter.",
+"Supported user-provided API keys, including local Ollama integration for AI features.",
+]
+
+
+[skills]
+languages  = ["Python", "TypeScript", "Javascript"]
+frameworks = ["FastAPI" ,"ReactJS", "Langchain", "ElectronJS"]
+tools      = ["Docker", "Git", "Github"]
+databases  = ["MySQL", "MongoDB", "Redis"]
+concepts   = ["REST APIs", "Data Structures & Algorithms", "Machine Learning"]

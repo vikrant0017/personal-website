@@ -1,22 +1,30 @@
 ---
 import { Button } from "./ui/button";
+import { loadResumeData } from "../lib/resume";
+
+const resumeData = loadResumeData();
+const personal = resumeData.personal || {};
+const summary = resumeData.summary || {};
+
+const name = personal.name || "Your Name";
+const summaryText =
+    summary.text ||
+    "I'm a full-stack developer passionate about building beautiful and functional web applications. I specialize in modern web technologies and love turning ideas into reality.";
 ---
 
 <section
     class="container flex max-w-screen-2xl flex-col items-center justify-center gap-8 px-4 py-24 md:py-32 lg:py-40"
 >
-    <div class="flex max-w-[64rem] flex-col items-center gap-4 text-center">
+    <div class="flex max-w-5xl flex-col items-center gap-4 text-center">
         <h1
             class="text-4xl font-extrabold tracking-tight sm:text-5xl md:text-6xl lg:text-7xl"
         >
-            Hi, I'm <span class="text-primary">Your Name</span>
+            Hi, I'm <span class="text-primary">{name}</span>
         </h1>
         <p
-            class="max-w-[42rem] text-lg leading-normal text-muted-foreground sm:text-xl sm:leading-8"
+            class="max-w-2xl text-lg leading-normal text-muted-foreground sm:text-xl sm:leading-8"
         >
-            I'm a full-stack developer passionate about building beautiful and
-            functional web applications. I specialize in modern web technologies
-            and love turning ideas into reality.
+            {summaryText}
         </p>
         <div class="flex gap-4">
             <Button client:load size="lg">
@@ -28,65 +36,27 @@ import { Button } from "./ui/button";
         </div>
     </div>
 
-    <div class="mt-8 flex flex-wrap items-center justify-center gap-4">
-        <div
-            class="flex items-center gap-2 rounded-lg border bg-card px-4 py-2 text-card-foreground"
-        >
-            <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="20"
-                height="20"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-            >
-                <polyline points="16 18 22 12 16 6"></polyline>
-                <polyline points="8 6 2 12 8 18"></polyline>
-            </svg>
-            <span class="text-sm font-medium">Full-Stack Development</span>
-        </div>
-        <div
-            class="flex items-center gap-2 rounded-lg border bg-card px-4 py-2 text-card-foreground"
-        >
-            <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="20"
-                height="20"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-            >
-                <rect x="2" y="3" width="20" height="14" rx="2"></rect>
-                <line x1="8" y1="21" x2="16" y2="21"></line>
-                <line x1="12" y1="17" x2="12" y2="21"></line>
-            </svg>
-            <span class="text-sm font-medium">UI/UX Design</span>
-        </div>
-        <div
-            class="flex items-center gap-2 rounded-lg border bg-card px-4 py-2 text-card-foreground"
-        >
-            <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="20"
-                height="20"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-            >
-                <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
-                <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
-                <line x1="12" y1="22.08" x2="12" y2="12"></line>
-            </svg>
-            <span class="text-sm font-medium">API Development</span>
-        </div>
-    </div>
+    {
+        personal.location && (
+            <div class="mt-8 flex flex-wrap items-center justify-center gap-4">
+                <div class="flex items-center gap-2 rounded-lg border bg-card px-4 py-2 text-card-foreground">
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="20"
+                        height="20"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                    >
+                        <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" />
+                        <circle cx="12" cy="10" r="3" />
+                    </svg>
+                    <span class="text-sm font-medium">{personal.location}</span>
+                </div>
+            </div>
+        )
+    }
 </section>

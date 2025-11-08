@@ -2,16 +2,27 @@
 import MainLayout from "../layouts/main.astro";
 import Hero from "../components/Hero.astro";
 import About from "../components/About.astro";
+// import Experience from "../components/Experience.astro";
 import Projects from "../components/Projects.astro";
 import Contact from "../components/Contact.astro";
+import { loadResumeData } from "../lib/resume";
+
+const resumeData = loadResumeData();
+const personal = resumeData.personal || {};
+const summary = resumeData.summary || {};
+
+const title = personal.name
+    ? `${personal.name} | Portfolio`
+    : "Portfolio | Full-Stack Developer";
+const description =
+    summary.text ||
+    "Welcome to my portfolio. I'm a full-stack developer passionate about building beautiful and functional web applications.";
 ---
 
-<MainLayout
-    title="Portfolio | Full-Stack Developer"
-    description="Welcome to my portfolio. I'm a full-stack developer passionate about building beautiful and functional web applications."
->
+<MainLayout title={title} description={description}>
     <Hero />
     <About />
+    <!-- <Experience /> -->
     <Projects />
     <Contact />
 </MainLayout>
